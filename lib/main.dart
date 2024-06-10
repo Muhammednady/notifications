@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:notifications/background_executor.dart';
 import 'package:notifications/home_page.dart';
 import 'package:notifications/local_notifications.dart';
 
 void main() async{
+  String Gtaskname = 'task name';
+  
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalNotifications.initialize();
+
+  await Future.wait([
+        await BackgroundExecutor().init(),  
+        await LocalNotifications.initialize(), 
+  ] as Iterable<Future>);
+  
   runApp(const MyApp());
 }
 

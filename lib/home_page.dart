@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notifications/local_notifications.dart';
+import 'package:notifications/product_details.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,6 +13,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late final localNotifications = LocalNotifications();
+
+  void listenToNotifications() {
+    LocalNotifications.streamController.stream.listen(
+      (event) {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ProductDetails(notificationResponse: event),
+        ));
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listenToNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
